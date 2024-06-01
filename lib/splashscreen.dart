@@ -14,7 +14,7 @@ class _SplashScreenState extends State<SplashScreen> {
     super.initState();
 
     // Setelah beberapa detik (misalnya, 3 detik), pindah ke halaman berikutnya
-    Timer(Duration(seconds: 3), () {
+    Timer(Duration(seconds: 1), () {
       // Ganti halaman ke halaman utama aplikasi
       Navigator.pushReplacement(
         context,
@@ -30,7 +30,7 @@ class _SplashScreenState extends State<SplashScreen> {
     return Scaffold(
       // Tampilan splash screen dengan gambar
       body: Container( // Menggunakan Container untuk menambahkan warna latar belakang
-      color: Colors.green, // Ganti warna latar belakang di sini
+      color: Colors.white, // Ganti warna latar belakang di sini
       child: Column(
         mainAxisAlignment: MainAxisAlignment.start,
         children: [
@@ -42,7 +42,7 @@ class _SplashScreenState extends State<SplashScreen> {
             child: SizedBox(
               height: MediaQuery.of(context).size.height * 0.3,
               width: MediaQuery.of(context).size.width * 0.8,
-              child: Image.asset("assets/logo.png", fit:BoxFit.cover),             
+              child: Image.asset("assets/logoriscan.png", fit:BoxFit.cover),             
             ),
           ),
         ],

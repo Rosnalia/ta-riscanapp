@@ -12,15 +12,17 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'RISCAN APP',
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
-      home: SplashScreen(), // Gunakan MyHomePage sebagai halaman awal
+      home: SplashScreen(), // tampilan awal splashscreen
     );
   }
 }
 
+//Stateless Widget dapat dikatakan sebagai widget statis yang berarti widget tersebut tidak berubah.
+//Stateful Widget merupakan widget yang dinamis. Ini berarti widget ini dapat merubah tampilannya 
+//sesuai response dari events yang dipicu baik dari interaksi user maupun adanya variabel atau nilai baru yang didapat.
 class MyHomePage extends StatefulWidget {
   @override
   _MyHomePageState createState() => _MyHomePageState();
@@ -43,9 +45,16 @@ class _MyHomePageState extends State<MyHomePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: Text('RISCAN APP'),
-      ),
+      appBar: 
+        AppBar(
+          backgroundColor: Colors.white,
+          title: Image.asset(
+            'assets/logoriscan.png',  // Ganti dengan path gambar Anda
+            height: 100.0,       // Atur tinggi gambar
+            fit: BoxFit.cover,  // Mengatur penempatan gambar
+          ),
+        centerTitle: false,
+        ),
       body: _pages[_selectedIndex],
       bottomNavigationBar: BottomNavigationBar(
         items: [

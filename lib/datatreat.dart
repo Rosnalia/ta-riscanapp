@@ -1,6 +1,6 @@
 class DataTreat {
 
-  List prediksi =  [
+  List treatment =  [
     '''
       Beras Premium\n     
     ''',
