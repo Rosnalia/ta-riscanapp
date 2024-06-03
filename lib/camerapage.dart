@@ -31,7 +31,7 @@ class _CameraPageState extends State<CameraPage> {
   Future<String?> loadModel() async {
     String? res = await Tflite.loadModel(
       model: "assets/model.tflite",
-      labels: "assets/labels.txt",
+      labels: "assets/label.txt",
       numThreads: 1,
       isAsset: true,
       useGpuDelegate: false,
@@ -90,7 +90,37 @@ class _CameraPageState extends State<CameraPage> {
         'imagePath': path,
         'confidence': prediction['confidence']
       });
+
+      showResultDialog(prediction['label'], (prediction['confidence'] * 100).toStringAsFixed(2), path);
     }
+  }
+
+  void showResultDialog(String label, String confidence, String imagePath) {
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: const Text("Scan Result"),
+          content: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              Image.file(File(imagePath)),
+              const SizedBox(height: 10),
+              Text("Label: $label"),
+              Text("Confidence: $confidence%"),
+            ],
+          ),
+          actions: [
+            TextButton(
+              child: const Text("OK"),
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+            ),
+          ],
+        );
+      },
+    );
   }
 
   @override
@@ -103,15 +133,9 @@ class _CameraPageState extends State<CameraPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.white,
-      appBar: AppBar(
-        title: const Text('Camera and Gallery'),
-        actions: [
-          IconButton(
-            icon: const Icon(Icons.photo_library),
-            onPressed: pickImageFromGallery,
-          ),
-        ],
-      ),
+      // appBar: AppBar(
+      //   title: const Text('Camera and Gallery'),
+      // ),
       body: FutureBuilder(
         future: initCamera(),
         builder: (_, snapshot) => (snapshot.connectionState == ConnectionState.done)
@@ -119,17 +143,17 @@ class _CameraPageState extends State<CameraPage> {
                 mainAxisAlignment: MainAxisAlignment.start,
                 children: [
                   const SizedBox(height: 20),
-                  const Align(
-                    alignment: Alignment.topCenter,
-                    child: Text(
-                      "SCAN SEKARANG",
-                      style: TextStyle(
-                        fontFamily: "Poppins",
-                        fontSize: 18,
-                        fontWeight: FontWeight.bold,
-                      ),
-                    ),
-                  ),
+                  // const Align(
+                  //   alignment: Alignment.topCenter,
+                  //   child: Text(
+                  //     "SCAN SEKARANG",
+                  //     style: TextStyle(
+                  //       fontFamily: "Poppins",
+                  //       fontSize: 18,
+                  //       fontWeight: FontWeight.bold,
+                  //     ),
+                  //   ),
+                  // ),
                   const SizedBox(height: 10),
                   Align(
                     alignment: Alignment.center,
@@ -141,36 +165,59 @@ class _CameraPageState extends State<CameraPage> {
                     ),
                   ),
                   const SizedBox(height: 30),
-                  InkWell(
-                    onTap: () async {
-                      if (!_camController!.value.isTakingPicture) {
-                        pathDir = await takePicture();
-                        log("Picture taken: $pathDir");
-                        await predictAndSave(pathDir!);
-                        ScaffoldMessenger.of(context).showSnackBar(
-                          const SnackBar(content: Text('Scan complete and saved!')),
-                        );
-                      }
-                    },
-                    child: Container(
-                      height: 40,
-                      width: MediaQuery.of(context).size.width * 0.6,
-                      decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(10),
-                        color: const Color.fromRGBO(126, 217, 87, 1),
-                      ),
-                      child: const Center(
-                        child: Text(
-                          "TAP TO SCAN",
-                          style: TextStyle(
-                            fontFamily: "Poppins",
-                            fontSize: 20,
-                            color: Colors.white,
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      InkWell(
+                        onTap: () async {
+                          if (!_camController!.value.isTakingPicture) {
+                            pathDir = await takePicture();
+                            log("Picture taken: $pathDir");
+                            await predictAndSave(pathDir!);
+                            ScaffoldMessenger.of(context).showSnackBar(
+                              const SnackBar(content: Text('Scan complete and saved!')),
+                            );
+                          }
+                        },
+                        child: Container(
+                          height: 40,
+                          width: MediaQuery.of(context).size.width * 0.4,
+                          decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(10),
+                            color: const Color.fromRGBO(248, 179, 102, 1),
+                          ),
+                          child: const Center(
+                            child: Text(
+                              "TAP TO SCAN",
+                              style: TextStyle(
+                                fontFamily: "Poppins",
+                                fontSize: 20,
+                                color: Colors.white,
+                              ),
+                            ),
                           ),
                         ),
                       ),
-                    ),
-                  )
+                      const SizedBox(width: 10),
+                      ElevatedButton.icon(
+                        onPressed: pickImageFromGallery,
+                        icon: const Icon(Icons.photo_library),
+                        label: const Text(""),
+                        style: ElevatedButton.styleFrom(
+                          primary: const Color.fromRGBO(248, 179, 102, 1),
+                          onPrimary: Colors.white,
+                          padding: const EdgeInsets.symmetric(
+                            horizontal: 12,
+                            vertical: 12,
+                          ),
+                          textStyle: const TextStyle(
+                            fontFamily: "Poppins",
+                            fontSize: 20,
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
                 ],
               )
             : const Center(child: CircularProgressIndicator()),

@@ -71,10 +71,13 @@ flutter:
     - assets/berita2.jpeg
     - assets/berita3.jpg
     - assets/berita4.jpg
-    - assets/labels.txt
+    - assets/label.txt
     - assets/logoriscan.png
     - assets/model.tflite
     - assets/rice.png
+    - assets/rice1.png
+    - assets/rice2.png
+    - assets/rice3.png
     - assets/news.png
 
   # An image asset can refer to one or more resolution-specific "variants", see
