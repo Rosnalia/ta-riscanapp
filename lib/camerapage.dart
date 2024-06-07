@@ -74,10 +74,11 @@ class _CameraPageState extends State<CameraPage> {
 
   Future<void> predictAndSave(String path) async {
     var predictions = await Tflite.runModelOnImage(
+      //tanya deni 
       path: path,
       imageMean: 0.0,
       imageStd: 255.0,
-      numResults: 3,
+      numResults: 2,
       threshold: 0.2,
       asynch: true,
     );
@@ -100,7 +101,7 @@ class _CameraPageState extends State<CameraPage> {
       context: context,
       builder: (BuildContext context) {
         return AlertDialog(
-          title: const Text("Scan Result"),
+          title: const Text("Hasil Scan"),
           content: Column(
             mainAxisSize: MainAxisSize.min,
             children: [
@@ -133,28 +134,13 @@ class _CameraPageState extends State<CameraPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.white,
-      // appBar: AppBar(
-      //   title: const Text('Camera and Gallery'),
-      // ),
       body: FutureBuilder(
         future: initCamera(),
         builder: (_, snapshot) => (snapshot.connectionState == ConnectionState.done)
             ? Column(
                 mainAxisAlignment: MainAxisAlignment.start,
                 children: [
-                  const SizedBox(height: 20),
-                  // const Align(
-                  //   alignment: Alignment.topCenter,
-                  //   child: Text(
-                  //     "SCAN SEKARANG",
-                  //     style: TextStyle(
-                  //       fontFamily: "Poppins",
-                  //       fontSize: 18,
-                  //       fontWeight: FontWeight.bold,
-                  //     ),
-                  //   ),
-                  // ),
-                  const SizedBox(height: 10),
+                  const SizedBox(height: 30),
                   Align(
                     alignment: Alignment.center,
                     child: SizedBox(
@@ -180,11 +166,11 @@ class _CameraPageState extends State<CameraPage> {
                           }
                         },
                         child: Container(
-                          height: 40,
-                          width: MediaQuery.of(context).size.width * 0.4,
+                          height: 50,
+                          width: MediaQuery.of(context).size.width * 0.5,
                           decoration: BoxDecoration(
                             borderRadius: BorderRadius.circular(10),
-                            color: const Color.fromRGBO(248, 179, 102, 1),
+                            color: Color.fromARGB(255, 149, 201, 185),
                           ),
                           child: const Center(
                             child: Text(
@@ -192,7 +178,7 @@ class _CameraPageState extends State<CameraPage> {
                               style: TextStyle(
                                 fontFamily: "Poppins",
                                 fontSize: 20,
-                                color: Colors.white,
+                                color: Color.fromARGB(255, 222, 253, 165),
                               ),
                             ),
                           ),
@@ -204,7 +190,7 @@ class _CameraPageState extends State<CameraPage> {
                         icon: const Icon(Icons.photo_library),
                         label: const Text(""),
                         style: ElevatedButton.styleFrom(
-                          primary: const Color.fromRGBO(248, 179, 102, 1),
+                          primary: Color.fromARGB(255, 149, 201, 185),
                           onPrimary: Colors.white,
                           padding: const EdgeInsets.symmetric(
                             horizontal: 12,

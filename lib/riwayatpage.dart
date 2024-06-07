@@ -1,8 +1,6 @@
 import 'dart:io';
-
 import 'package:flutter/material.dart';
 import 'package:riscan/database_helper.dart';
-
 import 'camerapage.dart';
 
 class RiwayatDeteksiPage extends StatefulWidget {
@@ -35,7 +33,7 @@ class _RiwayatDeteksiPageState extends State<RiwayatDeteksiPage> {
     await DatabaseHelper.deleteData('Kualitas', id);
     ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
       content: Text('Successfully deleted!'),
-      backgroundColor: Colors.green,
+      backgroundColor: Color.fromARGB(255, 149, 201, 185),
     ));
     _refreshData();
   }
@@ -50,7 +48,7 @@ class _RiwayatDeteksiPageState extends State<RiwayatDeteksiPage> {
               : ListView.builder(
                   itemCount: myData.length,
                   itemBuilder: (context, index) => Card(
-                    color: index % 2 == 0 ? Colors.white : Colors.green[200],
+                    color: index % 2 == 0 ? Colors.white : Color.fromARGB(255, 149, 201, 185),
                     margin: const EdgeInsets.all(15),
                     child: ListTile(
                       leading: myData[index]['imagePath'] != null

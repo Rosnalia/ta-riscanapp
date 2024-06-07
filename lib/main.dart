@@ -4,6 +4,10 @@ import 'package:riscan/riwayatpage.dart';
 import 'package:riscan/splashscreen.dart';
 import 'package:riscan/camerapage.dart';
 
+import 'medium_page.dart';
+import 'premium_page.dart';
+import 'tidak_page.dart';
+
 void main() {
   runApp(MyApp());
 }
@@ -34,6 +38,9 @@ class _MyHomePageState extends State<MyHomePage> {
     HomePage(),
     CameraPage(),
     RiwayatDeteksiPage(),
+    PremiumPage(),
+    MediumPage(),
+    TidakLayakPage(),
   ];
 
   void _onItemTapped(int index) {
@@ -54,6 +61,14 @@ class _MyHomePageState extends State<MyHomePage> {
             fit: BoxFit.cover,  // Mengatur penempatan gambar
           ),
         centerTitle: false,
+        elevation: 0, // Menghilangkan shadow default
+          bottom: PreferredSize(
+            preferredSize: Size.fromHeight(1.0),
+            child: Container(
+              color: Colors.grey, // Warna garis bawah
+              height: 1.0,
+            ),
+          ),
         ),
       body: _pages[_selectedIndex],
       bottomNavigationBar: BottomNavigationBar(

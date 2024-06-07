@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
 import 'camerapage.dart';
+import 'medium_page.dart';
+import 'premium_page.dart';
+import 'tidak_page.dart';
 
 class HomePage extends StatelessWidget {
   final List<Map<String, String>> items = [
@@ -28,9 +31,14 @@ class HomePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      // appBar: AppBar(
-      //   title: const Text('Berita'),
-      // ),
+      appBar: AppBar(
+        title: const Text('Selamat Datang di Riscan!'),
+        titleTextStyle: TextStyle(
+          fontWeight: FontWeight.bold,
+          color: Color.fromARGB(255, 0, 0, 0),
+          fontSize: 25,
+        ),
+      ),
       body: Column(
         children: [
           Padding(
@@ -39,7 +47,7 @@ class HomePage extends StatelessWidget {
               width: double.infinity,  // Make the button full width
               height: 150.0,  // Set the height of the button
               decoration: BoxDecoration(
-                color: const Color.fromRGBO(248, 179, 102, 1),  // Change the background color of the container
+                color: Color.fromARGB(255, 149, 201, 185), // Change the background color of the container
                 borderRadius: BorderRadius.circular(10.0),  // Add rounded corners
                 boxShadow: [
                   BoxShadow(
@@ -66,10 +74,10 @@ class HomePage extends StatelessWidget {
                   );
                 },
                 child: const Text(
-                  "SCAN HERE",
+                  "SCAN DISINI",
                   style: TextStyle(
                     fontSize: 24,
-                    color: Colors.white,  // Increase the font size
+                    color: Color.fromARGB(255, 255, 255, 255),
                   ),
                 ),
               ),
@@ -83,24 +91,63 @@ class HomePage extends StatelessWidget {
                 Expanded(
                   child: Column(
                     children: [
-                      Image.asset('assets/rice1.png', height: 50, width: 50),
-                      const Text('Premium'),
+                      GestureDetector(
+                        onTap: () {
+                          // Navigate to the Premium rice page
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(builder: (context) => PremiumPage()),
+                          );
+                        },
+                        child: Column(
+                          children: [
+                            Image.asset('assets/prem.png', height: 30, width: 30),
+                            const Text('Premium'),
+                          ],
+                        ),
+                      ),
                     ],
                   ),
                 ),
                 Expanded(
                   child: Column(
                     children: [
-                      Image.asset('assets/rice2.png', height: 50, width: 50),
-                      const Text('Medium'),
+                      GestureDetector(
+                        onTap: () {
+                          // Navigate to the Medium rice page
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(builder: (context) => MediumPage()),
+                          );
+                        },
+                        child: Column(
+                          children: [
+                            Image.asset('assets/med.png', height: 30, width: 30),
+                            const Text('Medium'),
+                          ],
+                        ),
+                      ),
                     ],
                   ),
                 ),
                 Expanded(
                   child: Column(
                     children: [
-                      Image.asset('assets/rice3.png', height: 50, width: 50),
-                      const Text('Tidak Layak'),
+                      GestureDetector(
+                        onTap: () {
+                          // Navigate to the Tidak Layak rice page (or handle as needed)
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(builder: (context) => TidakLayakPage()),
+                          );
+                        },
+                        child: Column(
+                          children: [
+                            Image.asset('assets/tid.png', height: 30, width: 30),
+                            const Text('Tidak Layak'),
+                          ],
+                        ),
+                      ),
                     ],
                   ),
                 ),

@@ -75,10 +75,13 @@ flutter:
     - assets/logoriscan.png
     - assets/model.tflite
     - assets/rice.png
-    - assets/rice1.png
-    - assets/rice2.png
-    - assets/rice3.png
+    - assets/med.png
+    - assets/prem.png
+    - assets/tid.png
     - assets/news.png
+    - assets/premium1.jpeg
+    - assets/medium1.jpg
+    - assets/sni.png
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware
