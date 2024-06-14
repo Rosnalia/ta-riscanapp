@@ -7,7 +7,7 @@ import 'package:image_picker/image_picker.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:tflite/tflite.dart';
 import 'database_helper.dart';
-import 'datatreat.dart';
+// import 'datatreat.dart';
 
 class CameraPage extends StatefulWidget {
   const CameraPage({Key? key}) : super(key: key);
@@ -20,7 +20,7 @@ class _CameraPageState extends State<CameraPage> {
   CameraController? _camController;
   List? _hasilPred;
   String? pathDir;
-  DataTreat dt = DataTreat();
+  // DataTreat dt = DataTreat();
 
   @override
   void initState() {
@@ -83,17 +83,6 @@ class _CameraPageState extends State<CameraPage> {
       threshold: 0.2,
       asynch: true, 
     );
- 
-    // var predictions = await Tflite.runModelOnFrame(
-    //   imageHeight: 224,
-    //   imageWidth: 224,
-    //   bytesList: path,
-    //   imageMean: 127.5,
-    //   imageStd: 127.5,
-    //   numResults: 2,
-    //   threshold: 0.5,
-    //   asynch: true, 
-    // );
 
     if (predictions != null && predictions.isNotEmpty) {
       var prediction = predictions[0];

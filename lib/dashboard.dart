@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'camerapage.dart';
 import 'medium_page.dart';
 import 'premium_page.dart';
-import 'tidak_page.dart';
+import 'package:riscan/tidak_page.dart';
 
 class HomePage extends StatelessWidget {
   @override
@@ -134,7 +134,7 @@ class HomePage extends StatelessWidget {
                     onTap: () {
                       Navigator.push(
                         context,
-                        MaterialPageRoute(builder: (context) => TidakLayakPage()),
+                        MaterialPageRoute(builder: (context) => TidakPage()),
                       );
                     },
                   ),

@@ -47,7 +47,7 @@ class TidakPage extends StatelessWidget {
             ),
             SizedBox(height: 20),  // Memberikan jarak antara gambar dan teks
             Text(
-              'Beras Tidak',
+              'Beras Tidak Layak Konsumsi',
               style: TextStyle(
                 fontSize: 20.0,     // Atur ukuran teks sesuai kebutuhan
                 fontWeight: FontWeight.bold,  // Atur ketebalan teks
@@ -55,40 +55,40 @@ class TidakPage extends StatelessWidget {
             ),
             SizedBox(height: 10),
             Text(
-              'Beras Tidak sering kita jumpai di pasaran. Contoh beras Tidak yang sering kita jumpai diantaranya Beras Cap Kembang dan Beras Tidak SPHP Bulog.',
+              'Merangkum dari Bobo.grid.id, ini dia ciri-ciri beras yang tidak layak konsumsi.',
               style: TextStyle(
                 fontSize: 12.0,
               ),
             ),
             SizedBox(height: 10),
             Text(
-              'Menurut SNI 6128:202 beras Tidak memiliki ciri-ciri seperti tabel berikut:',
+              '1. Salah satu ciri beras tidak layak pakai adalah yang mengeluarkan bau apek. Bau apek bisa jadi muncul karena beras sebelumnya disimpan dengan cara yang salah atau bisa jadi beras sudah mulai berjamur.',
               style: TextStyle(
                 fontSize: 12.0,
               ),
             ),
-            SizedBox(height: 20),  // Memberikan jarak antara teks dan gambar
-            Image.asset(
-              'assets/sni.png',  // Ganti dengan path gambar 
-              height: 150.0,     // Atur tinggi gambar
-              fit: BoxFit.cover, // Mengatur penempatan gambar
+            SizedBox(height: 20),
+            Text(
+              '2. Harus berhati-hati kalau melihat warna beras yang terlalu putih. bisa jadi beras tersebut sudah dicampur dengan pemutih. Banyak pedagang nakal yang memutihkan beras supaya terlihat lebih menarik. Padahal pemutih beras bisa sebabkan banyak penyakit berbahaya. Salah satunya adalah kanker.',
+              style: TextStyle(
+                fontSize: 12.0,
+              ),
             ),
             SizedBox(height: 20),
             Text(
-              'Dikutip dari Yogyaonline.co.id, kekuatan beras dengan kualitas Tidak cenderung jauh lebih rapuh dibandingkan dengan beras bekualitas premium. Selain itu, beras Tidak memiliki warna yang lebih semu (buram) dibandingkan dengan beras premium. Secara kasat mata memang tidak terlalu terlihat. Tapi kalau diperhatikan yang Tidak warnanya lebih semu sedangkan beras premium warnanya lebih terang (putih). Biasanya beras Tidak lebih umum memiliki kotoran-kotoran pada berasnya sehingga kamu harus ekstra dalam membersihkannya. Sementara, beras premium lebih bersih dari kotoran yang menempel.',
+              '3. Beras yang mudah remuk saat dipegang bisa jadi sudah tidak layak konsumsi. Biasanya, beras yang sudah seperti ini sudah rapuh dan hampir busuk. Beras yang rapuh dan busuk lama-kelamaan bisa jadi bubuk-bubuk halus jika diremas',
               style: TextStyle(
                 fontSize: 12.0,
               ),
             ),
             SizedBox(height: 50),
             Text(
-              'Sumber : yogyaonline.co.id dan SNI 6128:2020',
+              'Sumber : bobo.grid.id',
               style: TextStyle(
                 fontSize: 8.0,
                 fontWeight: FontWeight.bold,
               ),
             ),
-            // Tambahkan konten tambahan sesuai kebutuhan
           ],
         ),
       ),
