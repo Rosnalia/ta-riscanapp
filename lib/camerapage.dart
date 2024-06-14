@@ -74,14 +74,26 @@ class _CameraPageState extends State<CameraPage> {
 
   Future<void> predictAndSave(String path) async {
     var predictions = await Tflite.runModelOnImage(
-      //tanya deni 
+      // imageHeight: 224,
+      // imageWidth: 224,
       path: path,
-      imageMean: 0.0,
-      imageStd: 255.0,
+      imageMean: 127.5,
+      imageStd: 127.5,
       numResults: 2,
       threshold: 0.2,
-      asynch: true,
+      asynch: true, 
     );
+ 
+    // var predictions = await Tflite.runModelOnFrame(
+    //   imageHeight: 224,
+    //   imageWidth: 224,
+    //   bytesList: path,
+    //   imageMean: 127.5,
+    //   imageStd: 127.5,
+    //   numResults: 2,
+    //   threshold: 0.5,
+    //   asynch: true, 
+    // );
 
     if (predictions != null && predictions.isNotEmpty) {
       var prediction = predictions[0];
@@ -178,7 +190,7 @@ class _CameraPageState extends State<CameraPage> {
                               style: TextStyle(
                                 fontFamily: "Poppins",
                                 fontSize: 20,
-                                color: Color.fromARGB(255, 222, 253, 165),
+                                color: Color.fromARGB(255, 255, 255, 255),
                               ),
                             ),
                           ),

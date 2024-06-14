@@ -68,9 +68,23 @@ class PremiumPage extends StatelessWidget {
             ),
             SizedBox(height: 20),
             Text(
-              'Untuk mengantisipasi beras oplosan dengan harga yang tidak wajar, berikut merupakan rekomendasi merek beras premium, diantaranya:',
+              'Untuk mengantisipasi beras oplosan dengan harga yang tidak wajar, berikut merupakan rekomendasi merek beras premium, produk-produk ini diurutkan secara mandiri oleh mybest berdasarkan hasil riset pada beberapa website dan review (diperbarui tanggal 14 Januari 2024).',
               style: TextStyle(
                 fontSize: 12.0,
+              ),
+            ),
+            SizedBox(height: 20),  // Memberikan jarak antara teks dan gambar
+            Image.asset(
+              'assets/beras-prem-list.png',  // Ganti dengan path gambar 
+              height: 800.0,    // Atur tinggi gambar
+              fit: BoxFit.cover, // Mengatur penempatan gambar
+            ),
+            SizedBox(height: 50),
+            Text(
+              'Sumber : mybest.com dan SNI 6128:2020',
+              style: TextStyle(
+                fontSize: 8.0,
+                fontWeight: FontWeight.bold,
               ),
             ),
             // Tambahkan konten tambahan sesuai kebutuhan
