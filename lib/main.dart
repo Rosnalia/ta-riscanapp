@@ -40,7 +40,7 @@ class _MyHomePageState extends State<MyHomePage> {
     RiwayatDeteksiPage(),
     PremiumPage(),
     MediumPage(),
-    TidakLayakPage(),
+    TidakPage(),
   ];
 
   void _onItemTapped(int index) {
