@@ -1,7 +1,7 @@
 import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:riscan/database_helper.dart';
-import 'camerapage.dart';
+// import 'camerapage.dart';
 
 class RiwayatDeteksiPage extends StatefulWidget {
   const RiwayatDeteksiPage({Key? key}) : super(key: key);
@@ -21,7 +21,8 @@ class _RiwayatDeteksiPageState extends State<RiwayatDeteksiPage> {
   }
 
   void _refreshData() async {
-    final data = await DatabaseHelper.getData('Kualitas');
+    var dbHelper = DatabaseHelper(); // Membuat instance dari DatabaseHelper
+    final data = await dbHelper.getData('Kualitas'); // Menggunakan instance untuk memanggil getData
     setState(() {
       myData = data;
       _isLoading = false;
@@ -30,13 +31,15 @@ class _RiwayatDeteksiPageState extends State<RiwayatDeteksiPage> {
   }
 
   void deleteItem(int id) async {
-    await DatabaseHelper.deleteData('Kualitas', id);
+    var dbHelper = DatabaseHelper(); // Membuat instance dari DatabaseHelper
+    await dbHelper.deleteData('Kualitas', id); // Menggunakan instance untuk memanggil deleteData
     ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
       content: Text('Successfully deleted!'),
       backgroundColor: Color.fromARGB(255, 149, 201, 185),
     ));
     _refreshData();
   }
+
 
   @override
   Widget build(BuildContext context) {
@@ -63,15 +66,15 @@ class _RiwayatDeteksiPageState extends State<RiwayatDeteksiPage> {
                     ),
                   ),
                 ),
-      floatingActionButton: FloatingActionButton(
-        child: const Icon(Icons.add),
-        onPressed: () => Navigator.push(
-          context,
-          MaterialPageRoute(
-            builder: (_) => const CameraPage(),
-          ),
-        ).then((_) => _refreshData()),
-      ),
+      // floatingActionButton: FloatingActionButton(
+      //   child: const Icon(Icons.add),
+      //   onPressed: () => Navigator.push(
+      //     context,
+      //     MaterialPageRoute(
+      //       builder: (_) => const CameraPage(),
+      //     ),
+      //   ).then((_) => _refreshData()),
+      // ),
     );
   }
 }

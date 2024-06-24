@@ -1,13 +1,11 @@
 import 'dart:developer';
 import 'dart:io';
-
 import 'package:flutter/material.dart';
 import 'package:camera/camera.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:tflite/tflite.dart';
 import 'database_helper.dart';
-// import 'datatreat.dart';
 
 class CameraPage extends StatefulWidget {
   const CameraPage({Key? key}) : super(key: key);
@@ -18,9 +16,8 @@ class CameraPage extends StatefulWidget {
 
 class _CameraPageState extends State<CameraPage> {
   CameraController? _camController;
-  List? _hasilPred;
+  // List? _Prediction;
   String? pathDir;
-  // DataTreat dt = DataTreat();
 
   @override
   void initState() {
@@ -67,33 +64,34 @@ class _CameraPageState extends State<CameraPage> {
       log("Image picked: $pathDir");
       await predictAndSave(pathDir!);
       ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(content: Text('Image selected and scanned!')),
+        const SnackBar(content: Text('Gambar dipilih dan dideteksi!')),
       );
     }
   }
 
   Future<void> predictAndSave(String path) async {
     var predictions = await Tflite.runModelOnImage(
-      // imageHeight: 224,
-      // imageWidth: 224,
       path: path,
       imageMean: 127.5,
       imageStd: 127.5,
       numResults: 2,
       threshold: 0.2,
-      asynch: true, 
+      asynch: true,
     );
 
     if (predictions != null && predictions.isNotEmpty) {
       var prediction = predictions[0];
-      await DatabaseHelper.insertData('Kualitas', {
+      var dbHelper = DatabaseHelper(); // Membuat instance dari DatabaseHelper
+      await dbHelper.insertData('Kualitas', {
         'nama': prediction['label'],
-        'keterangan': 'Confidence: ${(prediction['confidence'] * 100).toStringAsFixed(2)}%',
+        'keterangan':
+            'Confidence: ${(prediction['confidence'] * 100).toStringAsFixed(2)}%',
         'imagePath': path,
         'confidence': prediction['confidence']
       });
 
-      showResultDialog(prediction['label'], (prediction['confidence'] * 100).toStringAsFixed(2), path);
+      showResultDialog(prediction['label'],
+          (prediction['confidence'] * 100).toStringAsFixed(2), path);
     }
   }
 
@@ -137,7 +135,8 @@ class _CameraPageState extends State<CameraPage> {
       backgroundColor: Colors.white,
       body: FutureBuilder(
         future: initCamera(),
-        builder: (_, snapshot) => (snapshot.connectionState == ConnectionState.done)
+        builder: (_, snapshot) => (snapshot.connectionState ==
+                ConnectionState.done)
             ? Column(
                 mainAxisAlignment: MainAxisAlignment.start,
                 children: [
@@ -145,7 +144,8 @@ class _CameraPageState extends State<CameraPage> {
                   Align(
                     alignment: Alignment.center,
                     child: SizedBox(
-                      height: MediaQuery.of(context).size.height * 1 /
+                      height: MediaQuery.of(context).size.height *
+                          1 /
                           _camController!.value.aspectRatio,
                       width: MediaQuery.of(context).size.width * 0.9,
                       child: CameraPreview(_camController!),
@@ -162,7 +162,8 @@ class _CameraPageState extends State<CameraPage> {
                             log("Picture taken: $pathDir");
                             await predictAndSave(pathDir!);
                             ScaffoldMessenger.of(context).showSnackBar(
-                              const SnackBar(content: Text('Scan complete and saved!')),
+                              const SnackBar(
+                                  content: Text('Deteksi berhasil dan disimpan!')),
                             );
                           }
                         },

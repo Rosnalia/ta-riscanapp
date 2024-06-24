@@ -1,24 +1,45 @@
-import 'package:flutter/foundation.dart';
-import 'package:sqflite/sqflite.dart' as sql;
+import 'dart:io';
+import 'package:path_provider/path_provider.dart';
+import 'package:sqflite/sqflite.dart';
+import 'package:path/path.dart';
+import 'package:permission_handler/permission_handler.dart';
 
 class DatabaseHelper {
-  static Future<sql.Database> db() async {
-    return sql.openDatabase(
-      'mydatabase.db',
+  static final DatabaseHelper _instance = DatabaseHelper._internal();
+  factory DatabaseHelper() => _instance;
+
+  static Database? _database;
+
+  DatabaseHelper._internal();
+
+  Future<Database> get database async {
+    if (_database != null) return _database!;
+
+    _database = await _initDatabase();
+    return _database!;
+  }
+
+  Future<Database> _initDatabase() async {
+
+    await Permission.manageExternalStorage.request();
+    final dbPath = await getDownloadsDirectory();
+
+    Directory(dbPath!.path).create(recursive: true);
+
+    final path = join(dbPath.path, 'kualitas.db');
+
+    print('Database path: $path');
+
+    return await openDatabase(
+      path,
       version: 1,
-      onCreate: (sql.Database database, int version) async {
-        await createTables(database);
-      },
+      onCreate: _onCreate,
     );
   }
 
-  static Future<void> createTables(sql.Database database) async {
-    await database.execute("""CREATE TABLE Gambar(
-        id INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, 
-        path STRING
-      )""");
-
-    await database.execute("""CREATE TABLE Kualitas(
+  Future<void> _onCreate(Database db, int version) async {
+    await db.execute("""
+      CREATE TABLE Kualitas(
         id INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL,
         nama TEXT, 
         keterangan TEXT,
@@ -27,27 +48,24 @@ class DatabaseHelper {
       )""");
   }
 
-  static Future<int> insertData(String table, Map<String, dynamic> data) async {
-    final db = await DatabaseHelper.db();
-    return await db.insert(table, data, conflictAlgorithm: sql.ConflictAlgorithm.replace);
+  Future<int> insertData(String table, Map<String, dynamic> data) async {
+    final db = await database;
+    return await db.insert(table, data);
   }
 
-  static Future<List<Map<String, dynamic>>> getData(String table) async {
-    final db = await DatabaseHelper.db();
+  Future<List<Map<String, dynamic>>> getData(String table) async {
+    final db = await database;
     return await db.query(table);
   }
 
-  static Future<int> updateData(String table, int id, Map<String, dynamic> data) async {
-    final db = await DatabaseHelper.db();
+  Future<int> updateData(
+      String table, Map<String, dynamic> data, int id) async {
+    final db = await database;
     return await db.update(table, data, where: 'id = ?', whereArgs: [id]);
   }
 
-  static Future<void> deleteData(String table, int id) async {
-    final db = await DatabaseHelper.db();
-    try {
-      await db.delete(table, where: 'id = ?', whereArgs: [id]);
-    } catch (err) {
-      debugPrint('Something went wrong when deleting data: $err');
-    }
+  Future<int> deleteData(String table, int id) async {
+    final db = await database;
+    return await db.delete(table, where: 'id = ?', whereArgs: [id]);
   }
 }
