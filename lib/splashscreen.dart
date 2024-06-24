@@ -31,6 +31,7 @@ class _SplashScreenState extends State<SplashScreen> {
         color: Colors.white,
         child: Center(
           child: SizedBox(
+            //kelas di Flutter yang menyediakan informasi mengenai ukuran layar, resolusi, orientasi, dan pengaturan terkait lainnya.
             height: MediaQuery.of(context).size.height * 0.3,
             width: MediaQuery.of(context).size.width * 0.8,
             child: Image.asset(

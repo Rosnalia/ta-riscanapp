@@ -17,7 +17,7 @@ class HomePage extends StatelessWidget {
         ),
         backgroundColor: Color.fromARGB(255, 255, 255, 255),
       ),
-      body: Column(
+      body: Column( //buat kolom untuk scan disini
         children: [
           Padding(
             padding: const EdgeInsets.all(16.0),
@@ -29,14 +29,14 @@ class HomePage extends StatelessWidget {
                 borderRadius: BorderRadius.circular(10.0),
                 boxShadow: [
                   BoxShadow(
-                    color: Colors.grey.withOpacity(0.5),
+                    color: Colors.grey.withOpacity(0.5), 
                     spreadRadius: 5,
                     blurRadius: 7,
                     offset: const Offset(0, 3),
                   ),
                 ],
               ),
-              child: ElevatedButton(
+              child: ElevatedButton( //tombol pindah ke page scan
                 style: ElevatedButton.styleFrom(
                   primary: Colors.transparent,
                   shadowColor: Colors.transparent,
@@ -44,10 +44,10 @@ class HomePage extends StatelessWidget {
                     borderRadius: BorderRadius.circular(10.0),
                   ),
                 ),
-                onPressed: () {
+                onPressed: () { //tekan
                   Navigator.push(
                     context,
-                    MaterialPageRoute(builder: (context) => const CameraPage()),
+                    MaterialPageRoute(builder: (context) => const CameraPage()), //pindah ke scan
                   );
                 },
                 child: const Text(
@@ -61,7 +61,7 @@ class HomePage extends StatelessWidget {
             ),
           ),
           Expanded(
-            child: ListView(
+            child: ListView( //daftar tombol halaman premium, medium, tidak layak
               padding: const EdgeInsets.all(16.0),
               children: [
                 Container(
@@ -79,17 +79,17 @@ class HomePage extends StatelessWidget {
                     ],
                   ),
                   child: ListTile(
-                    leading: Image.asset('assets/prem.png', height: 40, width: 40),
+                    leading: Image.asset('assets/prem.png', height: 40, width: 40), //gambar premium dan size nya
                     title: const Text('Premium'),
                     onTap: () {
                       Navigator.push(
                         context,
-                        MaterialPageRoute(builder: (context) => PremiumPage()),
+                        MaterialPageRoute(builder: (context) => PremiumPage()), //pindah ke halaman premium
                       );
                     },
                   ),
                 ),
-                Container(
+                Container( //box tombol medium
                   margin: const EdgeInsets.symmetric(vertical: 8.0),
                   decoration: BoxDecoration(
                     color: Colors.white,
@@ -104,18 +104,19 @@ class HomePage extends StatelessWidget {
                     ],
                   ),
                   child: ListTile(
-                    leading: Image.asset('assets/med.png', height: 40, width: 40),
+                    leading: Image.asset('assets/med.png', height: 40, width: 40), //gambar dan size medium
                     title: const Text('Medium'),
                     onTap: () {
                       Navigator.push(
                         context,
-                        MaterialPageRoute(builder: (context) => MediumPage()),
+                        MaterialPageRoute(builder: (context) => MediumPage()), //pindah ke halaman medium
                       );
                     },
                   ),
                 ),
-                Container(
-                  margin: const EdgeInsets.symmetric(vertical: 8.0),
+                Container( //box kontainer tidak layak
+                //digunakan untuk membuat padding atau margin yang simetris secara horizontal dan/atau vertikal.
+                  margin: const EdgeInsets.symmetric(vertical: 8.0), 
                   decoration: BoxDecoration(
                     color: Colors.white,
                     borderRadius: BorderRadius.circular(10.0),
@@ -128,13 +129,13 @@ class HomePage extends StatelessWidget {
                       ),
                     ],
                   ),
-                  child: ListTile(
+                  child: ListTile( //listtile:bagian dari listview
                     leading: Image.asset('assets/tid.png', height: 40, width: 40),
                     title: const Text('Tidak Layak'),
                     onTap: () {
                       Navigator.push(
                         context,
-                        MaterialPageRoute(builder: (context) => TidakPage()),
+                        MaterialPageRoute(builder: (context) => TidakPage()), //pindag ke halaman tidak layak
                       );
                     },
                   ),

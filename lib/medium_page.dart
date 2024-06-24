@@ -88,7 +88,6 @@ class MediumPage extends StatelessWidget {
                 fontWeight: FontWeight.bold,
               ),
             ),
-            // Tambahkan konten tambahan sesuai kebutuhan
           ],
         ),
       ),

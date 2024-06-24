@@ -12,7 +12,7 @@ class RiwayatDeteksiPage extends StatefulWidget {
 
 class _RiwayatDeteksiPageState extends State<RiwayatDeteksiPage> {
   List<Map<String, dynamic>> myData = [];
-  bool _isLoading = true;
+  bool _isLoading = true; //memuat hasil scan
 
   @override
   void initState() {
@@ -27,7 +27,7 @@ class _RiwayatDeteksiPageState extends State<RiwayatDeteksiPage> {
       myData = data;
       _isLoading = false;
     });
-    debugPrint('Data refreshed: $myData');
+    debugPrint('Data refreshed: $myData'); //data dimuat ulang
   }
 
   void deleteItem(int id) async {
@@ -43,15 +43,20 @@ class _RiwayatDeteksiPageState extends State<RiwayatDeteksiPage> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: _isLoading
+    return Scaffold( //struktur dasar untuk layar, termasuk AppBar, Drawer, FloatingActionButton, dan area body.
+      //Jika _isLoading bernilai true, maka CircularProgressIndicator akan ditampilkan di tengah layar, menunjukkan bahwa data sedang dimuat.
+      body: _isLoading //body yang digunakan untuk menampilkan konten.
+      //Jika _isLoading bernilai false dan myData kosong, 
+      //maka teks "Riwayat Kosong!" akan ditampilkan di tengah layar, menunjukkan bahwa tidak ada data yang tersedia.
           ? const Center(child: CircularProgressIndicator())
           : myData.isEmpty
-              ? const Center(child: Text("No Data Available!!!"))
+              ? const Center(child: Text("Riwayat Kosong!"))
               : ListView.builder(
-                  itemCount: myData.length,
-                  itemBuilder: (context, index) => Card(
+                  itemCount: myData.length, //menentukan jumlah item dalam daftar, diatur sesuai panjang myData
+                  itemBuilder: (context, index) => Card( //membangun setiap item dalam daftar.
+                    //Mengatur warna latar belakang Card bergantian antara putih dan warna lain berdasarkan indeks item.
                     color: index % 2 == 0 ? Colors.white : Color.fromARGB(255, 149, 201, 185),
+                    //setiap Card sebesar 15 piksel di semua sisi.
                     margin: const EdgeInsets.all(15),
                     child: ListTile(
                       leading: myData[index]['imagePath'] != null
@@ -59,6 +64,8 @@ class _RiwayatDeteksiPageState extends State<RiwayatDeteksiPage> {
                           : null,
                       title: Text(myData[index]['nama'] ?? ''),
                       subtitle: Text(myData[index]['keterangan'] ?? ''),
+                      //Menampilkan tombol IconButton dengan ikon delete. 
+                      //Saat tombol ditekan, memanggil fungsi deleteItem dengan ID item yang akan dihapus.
                       trailing: IconButton(
                         icon: const Icon(Icons.delete),
                         onPressed: () => deleteItem(myData[index]['id']),

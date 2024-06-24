@@ -34,6 +34,7 @@ class TidakPage extends StatelessWidget {
           ),
       ),
       body: SingleChildScrollView(
+        //digunakan untuk mengatur padding atau margin dengan nilai yang sama di semua sisi (atas, bawah, kiri, dan kanan) pada suatu widget
         padding: EdgeInsets.all(16.0),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,

@@ -7,114 +7,117 @@ import 'package:path_provider/path_provider.dart';
 import 'package:tflite/tflite.dart';
 import 'database_helper.dart';
 
-class CameraPage extends StatefulWidget {
+//stateless widget : tidak berubah
+//statefull widget : berubah selama apliakasi berjalan
+class CameraPage extends StatefulWidget { //Parameter key opsional (nullable)
   const CameraPage({Key? key}) : super(key: key);
 
+  //_CameraPageState mengelola state dan merender UI untuk CameraPage
   @override
   _CameraPageState createState() => _CameraPageState();
 }
 
 class _CameraPageState extends State<CameraPage> {
-  CameraController? _camController;
+  CameraController? _camController; //mengontroll kamera
   // List? _Prediction;
-  String? pathDir;
+  String? pathDir; //menyimpan directory path dengan tipe data string
 
   @override
   void initState() {
     super.initState();
-    loadModel();
+    loadModel(); //memuat model dari teachable machine
   }
 
   Future<String?> loadModel() async {
-    String? res = await Tflite.loadModel(
-      model: "assets/model.tflite",
-      labels: "assets/label.txt",
-      numThreads: 1,
-      isAsset: true,
-      useGpuDelegate: false,
+    String? res = await Tflite.loadModel( //load model menggunakan library tflite
+      model: "assets/model.tflite", //memanggil model dari aset
+      labels: "assets/label.txt", //memanggil label dari aset
+      numThreads: 1, //konfigurasi jumlah threads yang digunakan untuk menjalankan model
+      isAsset: true, //meyakinkan sumber daya yg digunakan yaitu dari asset
+      useGpuDelegate: false, //tidak menggunakan GPu (Graphics Processing Unit) hanya menggunakan CPU (Central Processing Unit) karena untuk menghemat daya
     );
-    return res;
+    return res; //diulang
   }
 
-  Future<void> initCamera() async {
-    var cameras = await availableCameras();
-    _camController = CameraController(cameras[0], ResolutionPreset.high);
-    await _camController!.initialize();
+  Future<void> initCamera() async { //inisialisasi kamera
+    var cameras = await availableCameras(); //menunggu kamera ada apa tidak
+    _camController = CameraController(cameras[0], ResolutionPreset.high); //mengontrol kamera, resolusi tinggi
+    await _camController!.initialize(); //menunggu kamera diinisialisasi
   }
 
-  Future<String> takePicture() async {
-    Directory root = await getTemporaryDirectory();
-    String dir = "${root.path}/BERAS";
-    await Directory(dir).create(recursive: true);
-    String filePath = "$dir/${DateTime.now()}.jpg";
+  Future<String> takePicture() async { //ambil gambar kamera
+    Directory root = await getTemporaryDirectory(); //mendapatkan directory
+    String dir = "${root.path}/BERAS"; //path yg digunakan beras
+    await Directory(dir).create(recursive: true); //menunggu directory dibuat
+    String filePath = "$dir/${DateTime.now()}.jpg"; //filepath format jpg
     try {
-      XFile? img = await _camController!.takePicture();
-      await img.saveTo(filePath);
+      XFile? img = await _camController!.takePicture(); //ambil gambar kamera
+      await img.saveTo(filePath); //gambar disimpan ke path
     } catch (e) {
       log("Error : ${e.toString()}");
     }
     return filePath;
   }
 
-  Future<void> pickImageFromGallery() async {
-    final picker = ImagePicker();
-    final pickedFile = await picker.pickImage(source: ImageSource.gallery);
-    if (pickedFile != null) {
-      pathDir = pickedFile.path;
-      log("Image picked: $pathDir");
-      await predictAndSave(pathDir!);
-      ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(content: Text('Gambar dipilih dan dideteksi!')),
+  Future<void> pickImageFromGallery() async { //ambil gambar dari galeri
+    final picker = ImagePicker(); //gambar dipilih
+    final pickedFile = await picker.pickImage(source: ImageSource.gallery); //menunggu gambar dari galeri dipilih
+    if (pickedFile != null) { //jika file dipilih
+      pathDir = pickedFile.path; //masuk path
+      log("Image picked: $pathDir"); //memanggil file yang dipuilih
+      await predictAndSave(pathDir!); //menunggu prediksi dan di save ke path
+      ScaffoldMessenger.of(context).showSnackBar( //pop up kecill dibawah 
+        const SnackBar(content: Text('Gambar dipilih dan dideteksi!')), //untuk menandakan gambar sudah di pilih dan detesi
       );
     }
   }
 
-  Future<void> predictAndSave(String path) async {
-    var predictions = await Tflite.runModelOnImage(
-      path: path,
-      imageMean: 127.5,
-      imageStd: 127.5,
-      numResults: 2,
-      threshold: 0.2,
-      asynch: true,
+  Future<void> predictAndSave(String path) async { //saat prediksi dan disimpan 
+    var predictions = await Tflite.runModelOnImage( //model dimuat dibantu dengan tflite
+      path: path, //path
+      imageMean: 127.5, //rata-rata image 
+      imageStd: 127.5, //gambar standar 
+      numResults: 2, //hanya dua hasil teratas yang akan diambil dari output model
+      threshold: 0.2, //hasil dengan probabilitas atau keyakinan 20% atau lebih tinggi yang akan dipertimbangkan sebagai hasil yang valid
+      asynch: true, //proses disinkronkan
     );
 
-    if (predictions != null && predictions.isNotEmpty) {
+    if (predictions != null && predictions.isNotEmpty) { //jika prediksi didapatkan
       var prediction = predictions[0];
       var dbHelper = DatabaseHelper(); // Membuat instance dari DatabaseHelper
-      await dbHelper.insertData('Kualitas', {
-        'nama': prediction['label'],
+      await dbHelper.insertData('Kualitas', { //menunggu dbhelper menambahkan data prediksi ke riwayat
+        'nama': prediction['label'], //nama prediksi = label
         'keterangan':
-            'Confidence: ${(prediction['confidence'] * 100).toStringAsFixed(2)}%',
+            'Confidence: ${(prediction['confidence'] * 100).toStringAsFixed(2)}%', //kemiripan hasil %
         'imagePath': path,
         'confidence': prediction['confidence']
       });
 
-      showResultDialog(prediction['label'],
+      showResultDialog(prediction['label'], //menampilkan hasil prediksi
           (prediction['confidence'] * 100).toStringAsFixed(2), path);
     }
   }
 
-  void showResultDialog(String label, String confidence, String imagePath) {
+  void showResultDialog(String label, String confidence, String imagePath) { //tampilan hasil prediksi
     showDialog(
       context: context,
       builder: (BuildContext context) {
         return AlertDialog(
           title: const Text("Hasil Scan"),
-          content: Column(
+          content: Column( //kolom
             mainAxisSize: MainAxisSize.min,
             children: [
-              Image.file(File(imagePath)),
-              const SizedBox(height: 10),
-              Text("Label: $label"),
-              Text("Confidence: $confidence%"),
+              Image.file(File(imagePath)), //gambar hasil prediksi
+              const SizedBox(height: 10), //tinggi box
+              Text("Label: $label"), //label hasil prediksi
+              Text("Confidence: $confidence%"), //kemiripan hasil prediksi
             ],
           ),
-          actions: [
+          actions: [ //aksi
             TextButton(
-              child: const Text("OK"),
-              onPressed: () {
-                Navigator.of(context).pop();
+              child: const Text("OK"), //button ok
+              onPressed: () { //tekan
+                Navigator.of(context).pop(); //saat dipress kolom hasil hilang
               },
             ),
           ],
