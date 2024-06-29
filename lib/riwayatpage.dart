@@ -34,7 +34,7 @@ class _RiwayatDeteksiPageState extends State<RiwayatDeteksiPage> {
     var dbHelper = DatabaseHelper(); // Membuat instance dari DatabaseHelper
     await dbHelper.deleteData('Kualitas', id); // Menggunakan instance untuk memanggil deleteData
     ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
-      content: Text('Successfully deleted!'),
+      content: Text('berhasil dihapus!'),
       backgroundColor: Color.fromARGB(255, 149, 201, 185),
     ));
     _refreshData();
@@ -50,7 +50,7 @@ class _RiwayatDeteksiPageState extends State<RiwayatDeteksiPage> {
       //maka teks "Riwayat Kosong!" akan ditampilkan di tengah layar, menunjukkan bahwa tidak ada data yang tersedia.
           ? const Center(child: CircularProgressIndicator())
           : myData.isEmpty
-              ? const Center(child: Text("Riwayat Kosong!"))
+              ? const Center(child: Text("Belum ada riwayat"))
               : ListView.builder(
                   itemCount: myData.length, //menentukan jumlah item dalam daftar, diatur sesuai panjang myData
                   itemBuilder: (context, index) => Card( //membangun setiap item dalam daftar.
