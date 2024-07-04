@@ -76,7 +76,7 @@ class PremiumPage extends StatelessWidget {
             SizedBox(height: 20),  // Memberikan jarak antara teks dan gambar
             Image.asset(
               'assets/beras-prem-list.png',  // Ganti dengan path gambar 
-              height: 1000.0,    // Atur tinggi gambar
+              height: 900.0,    // Atur tinggi gambar
               fit: BoxFit.cover, // Mengatur penempatan gambar
             ),
             SizedBox(height: 50),

@@ -138,8 +138,7 @@ class _CameraPageState extends State<CameraPage> {
       backgroundColor: Colors.white,
       body: FutureBuilder(
         future: initCamera(),
-        builder: (_, snapshot) => (snapshot.connectionState ==
-                ConnectionState.done)
+        builder: (_, snapshot) => (snapshot.connectionState == ConnectionState.done)
             ? Column(
                 mainAxisAlignment: MainAxisAlignment.start,
                 children: [
@@ -147,9 +146,7 @@ class _CameraPageState extends State<CameraPage> {
                   Align(
                     alignment: Alignment.center,
                     child: SizedBox(
-                      height: MediaQuery.of(context).size.height *
-                          1 /
-                          _camController!.value.aspectRatio,
+                      height: MediaQuery.of(context).size.height *1 /_camController!.value.aspectRatio,
                       width: MediaQuery.of(context).size.width * 0.9,
                       child: CameraPreview(_camController!),
                     ),
