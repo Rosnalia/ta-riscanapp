@@ -1,4 +1,4 @@
-package com.example.riscan
+package com.tugasakhir.riscanapp
 
 import io.flutter.embedding.android.FlutterActivity
 
